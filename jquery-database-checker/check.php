@@ -1,18 +1,14 @@
 <?php
-ini_set('display_startup_errors',1); //show all errors
-ini_set('display_errors',1);
-error_reporting(-1);
-
-$db = new PDO('mysql:host=localhost;dbname=mihaipco_sandbox', 'mihaipco_sites', 'Li1B3c13~vzW');
+$db = new PDO('mysql:host=localhost;dbname=sandbox', 'root', '');
 
 if(isset($_GET['type'], $_GET['value'])) {
 	$type  = strtolower(trim($_GET['type']));
 	$value = trim($_GET['value']);
-	
+
 	$output = ['exists' => false];
-	
+
 	if(in_array($type, ['username', 'email'])) {
-		
+
 		switch($type) {
 			case 'username':
 				$check = $db->prepare("
@@ -21,21 +17,20 @@ if(isset($_GET['type'], $_GET['value'])) {
 					WHERE username = :value
 				");
 			break;
-			
+
 			case 'email':
 				$check = $db->prepare("
 					SELECT COUNT(*) AS count
 					FROM users
 					WHERE email = :value
 				");
-			break;	
+			break;
 		}
-		
+
 		$check->execute(['value' => $value]);
-		
+
 		$output['exists'] = $check->fetchObject()->count ? true : false;
-		
+
 		echo json_encode($output);
 	}
 }
-
