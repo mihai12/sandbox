@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<a href="#cats">Cats</a>
+	<a href="#cats">Cats!</a>
     
     <div class="modal" id="cats">
     	<div class="modal-container">
